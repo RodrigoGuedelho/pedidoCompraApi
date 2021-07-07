@@ -1,12 +1,8 @@
 package br.com.guedelho.pedidoCompraApi.service;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.jdbc.Expectation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +38,7 @@ public class ProdutoService {
 	}
 	
 	public Produto editarProduto(Produto produto, Long id, String token) throws Exception {
-		Exception validacao = validacao(produto, id);
+		Exception validacao = validacao(id);
 		
 		if(validacao != null) {
 			throw validacao;
@@ -56,12 +52,24 @@ public class ProdutoService {
 		return produtoRepository.save(produtoAxiliar);
 	}
 	
-	public Exception validacao(Produto produto, Long id) {
+	public Produto cancelar(Long id, String token) throws Exception {
+		Exception validacao = validacao(id);
+		
+		if(validacao != null) {
+			throw validacao;
+		}
+		Produto produto = produtoRepository.findById(id).get();
+		produto.setStatus(StatusGenerico.CANCELADO);
+		produto.setUsuarioCadastro(Utils.getUsuarioLogado(token));
+		return produtoRepository.save(produto);
+	}
+	
+	public Exception validacao(Long id) {
 		Produto produtoAuxiliar  = produtoRepository.findById(id).get();
 		if (produtoAuxiliar == null) {
-			return new Exception("Usuário invalido.");
+			return new Exception("Produto invalido.");
 		} else if(produtoAuxiliar.getStatus().equals(StatusGenerico.CANCELADO)) {
-			return new Exception("Usuário está cancelado.");
+			return new Exception("Produto está cancelado.");
 		}
 		return null;
 	}
