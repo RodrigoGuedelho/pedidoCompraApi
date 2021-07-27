@@ -72,9 +72,12 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/pedidos/{id}")
-	public ResponseEntity<Object> editar(@PathVariable("id") Long id, @RequestBody Pedido pedido, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<Object> editar(@PathVariable("id") Long id, 
+			@RequestBody PedidoRequest pedidoRequest, @RequestHeader("Authorization") String token) {
 		try {	
-			return ResponseEntity.ok(pedidoService.editar(id, pedido, token));
+			Pedido pedido = toModel(pedidoRequest);
+			
+			return ResponseEntity.ok(toModelResponse(pedidoService.editar(id, pedido, token)));
 		} catch (Exception e) {
 			Problema problema = new Problema(400, e.getMessage());
 			System.out.println("e.getClass()" + e.getClass());
