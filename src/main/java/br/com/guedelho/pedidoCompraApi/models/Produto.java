@@ -103,5 +103,11 @@ public class Produto implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", descricao=" + descricao + ", descricaoDetalhada=" + descricaoDetalhada
+				+ ", preco=" + preco + ", dataCadastro=" + dataCadastro + ", usuarioCadastro=" + usuarioCadastro
+				+ ", status=" + status + "]";
 	}	
 }

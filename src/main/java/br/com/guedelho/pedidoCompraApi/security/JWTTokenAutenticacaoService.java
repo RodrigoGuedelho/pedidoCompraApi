@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import br.com.guedelho.pedidoCompraApi.ApplicationContextLoad;
 import br.com.guedelho.pedidoCompraApi.models.Usuario;
 import br.com.guedelho.pedidoCompraApi.repository.UsuarioRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -59,35 +60,37 @@ public class JWTTokenAutenticacaoService {
 	/*Retorna o usuário validado com token ou caso não sejá valido retorna null*/
 	public Authentication getAuhentication(HttpServletRequest request) {
 		
-		/*Pega o token enviado no cabeçalho http*/
-		
-		String token = request.getHeader(HEADER_STRING);
-		
-		if (token != null) {
+		try {
+			/*Pega o token enviado no cabeçalho http*/
+			String token = request.getHeader(HEADER_STRING);
 			
-			/*Faz a validação do token do usuário na requisição*/
-			String user = Jwts.parser().setSigningKey(SECRET) /*Bearer 87878we8we787w8e78w78e78w7e87w*/
-								.parseClaimsJws(token.replace(TOKEN_PREFIX, "")) /*87878we8we787w8e78w78e78w7e87w*/
-								.getBody().getSubject(); /*João Silva*/
-			if (user != null) {
+			if (token != null) {
 				
-				Usuario usuario = ApplicationContextLoad.getApplicationContext()
-						        .getBean(UsuarioRepository.class).findUserByLogin(user);
-				
-				if (usuario != null) {
+				/*Faz a validação do token do usuário na requisição*/
+				String user = Jwts.parser().setSigningKey(SECRET) /*Bearer 87878we8we787w8e78w78e78w7e87w*/
+									.parseClaimsJws(token.replace(TOKEN_PREFIX, "")) /*87878we8we787w8e78w78e78w7e87w*/
+									.getBody().getSubject(); /*João Silva*/
+				if (user != null) {
 					
-					return new UsernamePasswordAuthenticationToken(
-							usuario.getLogin(), 
-							usuario.getSenha(),
-							usuario.getAuthorities());
+					Usuario usuario = ApplicationContextLoad.getApplicationContext()
+							        .getBean(UsuarioRepository.class).findUserByLogin(user);
 					
+					if (usuario != null) {
+						
+						return new UsernamePasswordAuthenticationToken(
+								usuario.getLogin(), 
+								usuario.getSenha(),
+								usuario.getAuthorities());
+						
+					}
 				}
+				
 			}
-			
-		}
-	
-		return null; /*Não autorizado*/
 		
+			return null; /*Não autorizado*/
+		} catch (Exception e) { //ExpiredJwtException, MalformedJwtException...
+			return null; 
+		}
 	}
 	
 

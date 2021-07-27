@@ -73,7 +73,12 @@ public class Mesa implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Mesa [id=" + id + ", numero=" + numero + ", status=" + status + ", usuario=" + usuario + "]";
 	}	
+	
 	
 	
 }

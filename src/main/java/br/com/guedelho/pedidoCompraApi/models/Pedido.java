@@ -3,6 +3,7 @@ package br.com.guedelho.pedidoCompraApi.models;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,7 +29,7 @@ public class Pedido {
 	private Usuario usuario;
 	@OneToOne
 	private Mesa mesa;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<ItemPedido> itensPedido;
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
@@ -98,6 +99,11 @@ public class Pedido {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Pedido [id=" + id + ", dataPedido=" + dataPedido + ", usuario=" + usuario + ", mesa=" + mesa
+				+ ", itensPedido=" + itensPedido + ", status=" + status + ", observacao=" + observacao + "]";
 	}
 	
 	

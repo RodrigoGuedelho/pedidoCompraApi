@@ -67,6 +67,12 @@ public class ItemPedido {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
+	}
+	@Override
+	public String toString() {
+		return "ItemPedido [id=" + id + ", produto=" + produto + ", quantidade=" + quantidade + ", preco=" + preco
+				+ "]";
+	}
+	
 	
 }
