@@ -46,9 +46,11 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		
 		/*Filtra demais requisições paa verificar a presenção do TOKEN JWT no HEADER HTTP*/
 		.addFilterBefore(new JwtApiAutenticacaoFilter(), UsernamePasswordAuthenticationFilter.class);
-	
+		
+		/*Liberando cors*/
+		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+		.disable().authorizeRequests().antMatchers("/").permitAll().and().cors();
 	}
-	
 	
 	
 	@Override

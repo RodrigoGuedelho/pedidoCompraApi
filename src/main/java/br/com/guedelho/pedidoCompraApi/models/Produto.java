@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "produto")
@@ -22,10 +24,13 @@ public class Produto implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
 	private Long id;
+	@NotBlank
 	@Column(length = 100)
 	private String descricao;
+	@NotBlank
 	@Column(name = "descricao_detalhada")
 	private String descricaoDetalhada;
+	@NotNull
 	private double preco;
 	@Column(name = "data_cadastro")
 	private OffsetDateTime dataCadastro; 
