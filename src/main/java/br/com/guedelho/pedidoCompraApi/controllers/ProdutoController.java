@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.guedelho.pedidoCompraApi.models.Produto;
+import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 import br.com.guedelho.pedidoCompraApi.service.ProdutoService;
 import br.com.guedelho.pedidoCompraApi.utils.Problema;
 
@@ -40,9 +41,9 @@ public class ProdutoController {
 	
 	@GetMapping("/produtos")
 	public ResponseEntity<Object> find(@RequestParam(value="descricao", required=false) String descricao, 
-			@RequestParam(value="id", required=false) Long id) {
+			@RequestParam(value="id", required=false) Long id, @RequestParam("status") StatusGenerico status) {
 		try {	
-			return  ResponseEntity.ok(produtoService.find(descricao, id));
+			return  ResponseEntity.ok(produtoService.find(descricao, id, status));
 		} catch (Exception e) {
 			Problema problema = new Problema(400, e.getMessage());
 			return ResponseEntity.status(problema.getStatus()).body(problema);

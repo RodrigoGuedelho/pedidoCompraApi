@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.guedelho.pedidoCompraApi.models.Produto;
+import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long>{
@@ -15,6 +16,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 	@Query(value = "SELECT p FROM Produto p "
 			+ "where lower(p.descricao) like %:descricao% "
 			+ "and (p.id = :id or :id = 0)"
-			+ "and p.status = 'ATIVO'")
-    public List<Produto> find(@Param("descricao") String descricao, @Param("id") Long id);
+			+ "and p.status = :status")
+    public List<Produto> find(@Param("descricao") String descricao, @Param("id") Long id, 
+    		@Param("status") StatusGenerico status);
 }

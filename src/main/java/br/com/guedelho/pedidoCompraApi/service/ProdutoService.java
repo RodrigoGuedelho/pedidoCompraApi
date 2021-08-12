@@ -25,7 +25,7 @@ public class ProdutoService {
 		return produtoRepository.save(produto);
 	}
 	
-	public List<Produto> find(String descricao, Long id) {
+	public List<Produto> find(String descricao, Long id, StatusGenerico status) {
 		
 		if (id == null) {
 			id = 0L;
@@ -34,7 +34,7 @@ public class ProdutoService {
 		if (descricao == null) {
 			descricao = "";
 		}
-		return produtoRepository.find(descricao, id);
+		return produtoRepository.find(descricao, id, status);
 	}
 	
 	public Produto editarProduto(Produto produto, Long id, String token) throws Exception {
