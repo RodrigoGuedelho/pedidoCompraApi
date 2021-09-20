@@ -31,9 +31,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		
 		/*Ativando a permissão para acesso a página incial do sistema EX: sistema.com.br/index*/
-		.disable().authorizeRequests().antMatchers("/").permitAll()
-		.antMatchers("/index").permitAll()
-		
+		.disable().authorizeRequests().antMatchers(
+				"/", "/v2/api-docs/**", "/swagger-ui/**",  "/swagger-resources/**", "/swagger/resources/**", "/configuration/**"
+				
+		).permitAll()
 		/*URL de Logout - Redireciona após o user deslogar do sistema*/
 		.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
 		
