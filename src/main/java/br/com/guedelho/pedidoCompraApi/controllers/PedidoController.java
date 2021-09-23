@@ -1,18 +1,23 @@
 package br.com.guedelho.pedidoCompraApi.controllers;
 
-import java.sql.Date;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +34,7 @@ import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
 import br.com.guedelho.pedidoCompraApi.requestModels.PedidoRequest;
 import br.com.guedelho.pedidoCompraApi.responseModels.PedidoResponse;
 import br.com.guedelho.pedidoCompraApi.service.PedidoService;
+import br.com.guedelho.pedidoCompraApi.service.ServiceRelatorio;
 import br.com.guedelho.pedidoCompraApi.utils.Problema;
 
 @RestController
@@ -69,6 +75,23 @@ public class PedidoController {
 			System.out.println("e.getClass()" + e.getClass());
 			return ResponseEntity.status(problema.getStatus()).body(problema);
 		} 
+	}
+	
+	@GetMapping(value = "/pedidos/relatorio", produces = "application/text")
+	public ResponseEntity<Object> getRelatorio(@RequestParam("dataInicio") 
+		@DateTimeFormat(pattern ="yyyy-MM-dd") Date dataInicio,
+		 @RequestParam(value="dataFim") @DateTimeFormat(pattern ="yyyy-MM-dd") Date dataFim,
+		 HttpServletRequest httpServletRequest
+		) throws Exception {
+		//try {		
+			String pdf = pedidoService.getRelatorio(dataInicio, dataFim, httpServletRequest.getServletContext());
+			return ResponseEntity.status(HttpStatus.OK).body(pdf);
+		/*} catch (Exception e) {
+			//Problema problema = new Problema(400, e.getMessage());
+			System.out.println("e.getClass()" + e.getClass());
+			//return ResponseEntity.status(problema.getStatus()).body(problema);
+			return null;
+		} */
 	}
 	
 	@PutMapping("/pedidos/{id}")

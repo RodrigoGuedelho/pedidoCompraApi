@@ -1,9 +1,17 @@
 package br.com.guedelho.pedidoCompraApi.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletContext;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +30,8 @@ public class PedidoService {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private MesaRepository mesaRepository;
+	@Autowired
+	private ServiceRelatorio serviceRelatorio;
 	
 	public Pedido salvar(Pedido pedido, String token) throws Exception {	
 		pedido.setDataPedido(OffsetDateTime.now());
@@ -35,6 +45,19 @@ public class PedidoService {
 		
 		pedido = pedidoRepository.save(pedido);
 		return pedidoRepository.findById(pedido.getId()).get();
+	}
+	
+	public String getRelatorio(Date dataInicio, Date dataFim, ServletContext servletContext) throws Exception {
+		Map<String, Object>  params = new HashMap<String, Object>();
+		
+		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
+		params.put("data_inicio", format.format(dataInicio));
+		params.put("data_fim", format.format(dataFim));
+		
+		byte [] relatorio = serviceRelatorio.gerarRelatorio("relatorioPedidos", servletContext, params);
+		
+		String pdfase64 = Base64.encodeBase64String(relatorio);
+		return "data:application/pdf;base64,"  + pdfase64;
 	}
 	
 	

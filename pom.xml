@@ -84,6 +84,35 @@
 		    <version>3.0.0</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.17.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>6.17.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>fonts.arial</groupId>
+		    <artifactId>arial</artifactId>
+		    <version>1</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/resources/fonts/arial.jar</systemPath>
+		</dependency>
+		
+		<dependency>
+		    <groupId>fonts.timesNewRoman</groupId>
+		    <artifactId>arial</artifactId>
+		    <version>1</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/resources/fonts/timesNewRoman.jar</systemPath>
+		</dependency>
 		
 	</dependencies>
 
@@ -92,6 +121,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
