@@ -17,10 +17,14 @@
 	<parameter name="data_fim" class="java.lang.String"/>
 	<parameter name="filtros" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select * from pedido p
+		<![CDATA[SELECT  
+	p.id,p.data_pedido, p.status, p.observacao,SUM(i.quantidade * i.preco) total
+from pedido p
 	join mesa m on (m.id  = p.mesa_id)
+	join pedido_itens_pedido ip ON (ip.pedido_id = p.id)
+	JOIN item_pedido i ON (i.id = ip.itens_pedido_id)
 where p.data_pedido between '$P!{data_inicio}'
-	and  '$P!{data_fim}'
+	and  '$P!{data_fim}'GROUP BY p.id
 order by p.data_pedido;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
@@ -33,30 +37,19 @@ order by p.data_pedido;]]>
 		<property name="com.jaspersoft.studio.field.label" value="data_pedido"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
 	</field>
-	<field name="observacao" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="observacao"/>
-		<property name="com.jaspersoft.studio.field.label" value="observacao"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
-	</field>
 	<field name="status" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="status"/>
 		<property name="com.jaspersoft.studio.field.label" value="status"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
 	</field>
-	<field name="mesa_id" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="mesa_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="mesa_id"/>
+	<field name="observacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="observacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="observacao"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
 	</field>
-	<field name="usuario_id" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="usuario_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="usuario_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pedido"/>
-	</field>
-	<field name="numero" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="numero"/>
-		<property name="com.jaspersoft.studio.field.label" value="numero"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="mesa"/>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -88,7 +81,9 @@ order by p.data_pedido;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{filtros}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -145,6 +140,15 @@ order by p.data_pedido;]]>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 			</line>
+			<staticText>
+				<reportElement x="686" y="17" width="94" height="15" uuid="7dbfc893-0440-4cb9-b8ca-8b5823149d5d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -175,6 +179,14 @@ order by p.data_pedido;]]>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{observacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="686" y="5" width="94" height="15" uuid="c7a57a3d-b67a-4098-b9ad-e964bd9a8d17">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
