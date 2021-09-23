@@ -15,13 +15,13 @@
 	</style>
 	<parameter name="data_inicio" class="java.lang.String"/>
 	<parameter name="data_fim" class="java.lang.String"/>
+	<parameter name="filtros" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select * from pedido p
 	join mesa m on (m.id  = p.mesa_id)
 where p.data_pedido between '$P!{data_inicio}'
 	and  '$P!{data_fim}'
-order by p.data_pedido;
-]]>
+order by p.data_pedido;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -68,8 +68,8 @@ order by p.data_pedido;
 				<imageExpression><![CDATA["logo.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement style="Title" x="205" y="23" width="370" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement style="Title" x="200" y="23" width="370" height="62" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Pedido Legal]]></text>
 			</staticText>
 			<staticText>
@@ -77,12 +77,20 @@ order by p.data_pedido;
 				<textElement>
 					<font fontName="Times New Roman"/>
 				</textElement>
-				<text><![CDATA[01/07/2021 à 21/09/2021]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<image>
 				<reportElement x="633" y="-73" width="219" height="209" uuid="4aa6f4d1-27dc-4b34-9227-59e19ce2c959"/>
 				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement style="SubTitle" x="200" y="80" width="370" height="22" uuid="9f28793f-572e-4d4f-b647-d7d1221625e4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{filtros}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

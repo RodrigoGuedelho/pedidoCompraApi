@@ -51,8 +51,12 @@ public class PedidoService {
 		Map<String, Object>  params = new HashMap<String, Object>();
 		
 		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatPadraoBrasileiro =  new SimpleDateFormat("dd-MM-yyyy");
+		
 		params.put("data_inicio", format.format(dataInicio));
 		params.put("data_fim", format.format(dataFim));
+		params.put("filtros", formatPadraoBrasileiro.format(dataInicio) 
+				+ " à " +  formatPadraoBrasileiro.format(dataFim));
 		
 		byte [] relatorio = serviceRelatorio.gerarRelatorio("relatorioPedidos", servletContext, params);
 		
