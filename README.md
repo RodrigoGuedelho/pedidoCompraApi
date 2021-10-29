@@ -2,7 +2,7 @@
 
 # Introdução
 
-Este projeto foi auto gerado via `mvn archetype:generate` e encontra-se em um estado pronto para execução.
+Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 
 # Como configurar
 
