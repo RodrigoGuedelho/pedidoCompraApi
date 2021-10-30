@@ -25,8 +25,10 @@ Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 3- Para gerar o build da aplicação: mvn clean install
 
 4 - executar o build com e sem o docker: 
+
 	1 - Sem o docker: java -jar target/pedidoCompraApi-0.0.1-SNAPSHOT.jar
-	2 - Com o docker: 
+	2 - Com o docker:
+		
 		1 - criar imagem: docker build -t pedido-legal .
 		2 - Rodar imagem: docker run -p 8080:8080 pedido-legal
 
