@@ -52,9 +52,9 @@ public class MesaService {
 		return null;
 	}
 	
-	public List<Mesa> find(int numero, Long id) {
+	public List<Mesa> find(int numero, Long id, StatusGenerico status) {
 		if (id == null)
 			id = 0L;
-		return mesaRepository.find(numero, id);
+		return mesaRepository.find(numero, id, status);
 	}
 }

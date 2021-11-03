@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.guedelho.pedidoCompraApi.models.Mesa;
+import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 import br.com.guedelho.pedidoCompraApi.service.MesaService;
 import br.com.guedelho.pedidoCompraApi.utils.Problema;
 
@@ -39,9 +40,9 @@ public class MesaController {
 	
 	@GetMapping("/mesas")
 	public ResponseEntity<Object> find(@RequestParam(value="numero", required=false, defaultValue ="0") int numero, 
-			@RequestParam(value="id", required=false) Long id) {
+			@RequestParam(value="id", required=false) Long id, @RequestParam("status") StatusGenerico status) {
 		try {	
-			return  ResponseEntity.ok(mesaService.find(numero, id));
+			return  ResponseEntity.ok(mesaService.find(numero, id, status));
 		} catch (Exception e) {
 			Problema problema = new Problema(400, e.getMessage());
 			return ResponseEntity.status(problema.getStatus()).body(problema);

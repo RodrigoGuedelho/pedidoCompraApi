@@ -9,16 +9,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.guedelho.pedidoCompraApi.models.Pedido;
+import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	@Query("SELECT p from Pedido p "
 			+ "where (date(p.dataPedido) between date(:dataInicio) and date(:dataFim) ) "
 			+ "and (p.observacao like :observacao) and (p.id = :id or :id = 0) "
+			+ "and (p.status = :status or :status = null)"
 		)
 	public List<Pedido> find(@Param("dataInicio") String dataInicio,  
 			@Param("dataFim") String dataFim, @Param("observacao") String observacao,
-			@Param("id") Long id);
+			@Param("id") Long id, @Param("status") StatusPedido status);
 	
 	@Query("SELECT p from Pedido p where p.status = 'ABERTO' and p.mesa.id = :idMesa")
 	public List<Pedido> findByMesaStatusAberto(@Param("idMesa") Long idMesa);

@@ -94,8 +94,8 @@ public class PedidoService {
 	}
 	
 	public List<Pedido> find(LocalDate dataInicio, LocalDate dataFim, String observacao,
-			Long id) {	
-		return pedidoRepository.find(dataInicio.toString(), dataFim.toString(), "%" + observacao + "%", id);
+			Long id, StatusPedido status) {	
+		return pedidoRepository.find(dataInicio.toString(), dataFim.toString(), "%" + observacao + "%", id, status);
 	}
 	
 	
@@ -108,7 +108,7 @@ public class PedidoService {
 			return new Exception("Mesa não preenchida ou inválida.");
 		
 		List<Pedido> pedidoAberto = pedidoRepository.findByMesaStatusAberto(mesa.getId()); 
-		if (pedidoAberto.isEmpty()) 
+		if (!pedidoAberto.isEmpty()) 
 			return new Exception("Existe uma mesa aberta para esse Pedido.");
 		
 		return null;

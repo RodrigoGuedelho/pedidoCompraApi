@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.guedelho.pedidoCompraApi.models.Mesa;
+import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 
 @Repository
 public interface MesaRepository extends  JpaRepository<Mesa, Long>{
@@ -16,7 +17,7 @@ public interface MesaRepository extends  JpaRepository<Mesa, Long>{
 	public Mesa findByNumero(@Param("numero") int numero);
 	@Query(value = "SELECT m FROM Mesa m where (m.numero = :numero or :numero = 0) "
 			+ "and (m.id = :id or :id = 0) "
-			+ "and m.status = 'ATIVO' ")
-	public List<Mesa> find(@Param("numero") int numero, @Param("id") Long id);
+			+ "and m.status = :status ")
+	public List<Mesa> find(@Param("numero") int numero, @Param("id") Long id, StatusGenerico  status);
 	
 }
