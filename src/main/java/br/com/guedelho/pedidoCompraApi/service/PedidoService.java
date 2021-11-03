@@ -99,8 +99,12 @@ public class PedidoService {
 		return pedidoRepository.find(dataInicio.toString(), dataFim.toString(), "%" + observacao + "%", id, status);
 	}
 	
-	public List<PedidoAgrupadolDto> findAgrupado(LocalDate dataInicio, LocalDate dataFim, StatusPedido status) {	
-		return pedidoRepository.findPedidoAgrupado(dataInicio.toString(), dataFim.toString(), status);
+	public List<PedidoAgrupadolDto> findAgrupado(LocalDate dataInicio, LocalDate dataFim, StatusPedido status) {
+		return pedidoRepository.findPedidoAgrupado(dataInicio.toString(), dataFim.toString(), status != null ? status.toString() : null);
+	}
+	
+	public Pedido findById(Long id) {
+		return pedidoRepository.findById(id).get();
 	}
 	
 	

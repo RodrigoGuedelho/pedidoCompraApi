@@ -3,6 +3,8 @@ package br.com.guedelho.pedidoCompraApi.responseModels;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
+
 public class PedidoResponse {
 	private Long id;
 	private OffsetDateTime dataPedido;
@@ -12,6 +14,8 @@ public class PedidoResponse {
 	private Long mesaNumero;
 	private List<ItemPedidoResponse> itensPedido;
 	private String observacao;
+	private StatusPedido status;
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,6 +64,12 @@ public class PedidoResponse {
 	}
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+	public StatusPedido getStatus() {
+		return status;
+	}
+	public void setStatus(StatusPedido status) {
+		this.status = status;
 	}
 	
 	

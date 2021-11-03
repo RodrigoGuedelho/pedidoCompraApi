@@ -29,11 +29,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 			+ "join item_pedido ip on (ip.id = pip.itens_pedido_id)"
 			+ "join mesa m on (m.id = p.mesa_id) "
 			+ "where (date(p.data_pedido) between date(:dataInicio) and date(:dataFim) ) "
-			+ "and (p.status = 'ABERTO' or :status = null) "
+			+ "and (p.status = :status or :status is null) "
 			+ "group by p.id, m.numero, p.data_pedido ", nativeQuery = true
 		)
 	public List<PedidoAgrupadolDto> findPedidoAgrupado(@Param("dataInicio") String dataInicio,  
-			@Param("dataFim") String dataFim, @Param("status") StatusPedido status);
+			@Param("dataFim") String dataFim, @Param("status") String status);
 	
 	@Query("SELECT p from Pedido p where p.status = 'ABERTO' and p.mesa.id = :idMesa")
 	public List<Pedido> findByMesaStatusAberto(@Param("idMesa") Long idMesa);
