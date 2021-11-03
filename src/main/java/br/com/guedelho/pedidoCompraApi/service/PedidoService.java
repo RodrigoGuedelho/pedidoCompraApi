@@ -15,6 +15,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.guedelho.pedidoCompraApi.dto.PedidoAgrupadolDto;
 import br.com.guedelho.pedidoCompraApi.models.Mesa;
 import br.com.guedelho.pedidoCompraApi.models.Pedido;
 import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
@@ -96,6 +97,10 @@ public class PedidoService {
 	public List<Pedido> find(LocalDate dataInicio, LocalDate dataFim, String observacao,
 			Long id, StatusPedido status) {	
 		return pedidoRepository.find(dataInicio.toString(), dataFim.toString(), "%" + observacao + "%", id, status);
+	}
+	
+	public List<PedidoAgrupadolDto> findAgrupado(LocalDate dataInicio, LocalDate dataFim, StatusPedido status) {	
+		return pedidoRepository.findPedidoAgrupado(dataInicio.toString(), dataFim.toString(), status);
 	}
 	
 	

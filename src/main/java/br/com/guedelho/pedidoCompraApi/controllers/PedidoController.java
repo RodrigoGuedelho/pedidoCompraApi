@@ -67,10 +67,24 @@ public class PedidoController {
 		 @RequestParam(value="dataFim") @DateTimeFormat(pattern ="yyyy-MM-dd") LocalDate dataFim, 
 		@RequestParam(value="observacao", required = false, defaultValue = "") String observacao,
 			@RequestParam(value="id", required = false, defaultValue="0") Long id, 
-			@RequestParam(value="id", required = false) StatusPedido status) {
+			@RequestParam(value="status", required = false) StatusPedido status) {
 		try {
 			return ResponseEntity.ok(toCollectionModelResponse(
 					pedidoService.find(dataInicio, dataFim, observacao, id, status)));
+		} catch (Exception e) {
+			Problema problema = new Problema(400, e.getMessage());
+			System.out.println("e.getClass()" + e.getClass());
+			return ResponseEntity.status(problema.getStatus()).body(problema);
+		} 
+	}
+	
+	@GetMapping("/pedidos/agrupado")
+	public ResponseEntity<Object> findAgrupado(@RequestParam("dataInicio") 
+		@DateTimeFormat(pattern ="yyyy-MM-dd") LocalDate dataInicio,
+		 @RequestParam(value="dataFim") @DateTimeFormat(pattern ="yyyy-MM-dd") LocalDate dataFim, 
+		 StatusPedido status) {
+		try {
+			return ResponseEntity.ok(pedidoService.findAgrupado(dataInicio, dataFim, status));
 		} catch (Exception e) {
 			Problema problema = new Problema(400, e.getMessage());
 			System.out.println("e.getClass()" + e.getClass());

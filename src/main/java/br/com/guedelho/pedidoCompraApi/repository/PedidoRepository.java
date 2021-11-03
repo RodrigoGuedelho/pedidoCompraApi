@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import br.com.guedelho.pedidoCompraApi.dto.PedidoAgrupadolDto;
 import br.com.guedelho.pedidoCompraApi.models.Pedido;
 import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
 
@@ -21,6 +22,18 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	public List<Pedido> find(@Param("dataInicio") String dataInicio,  
 			@Param("dataFim") String dataFim, @Param("observacao") String observacao,
 			@Param("id") Long id, @Param("status") StatusPedido status);
+	
+	@Query(value="SELECT p.id, p.data_pedido as dataPedido, m.numero as numeroMesa, sum(ip.preco * ip.quantidade) as valorTotal "
+			+ "from pedido p "
+			+ "join pedido_itens_pedido pip on (pip.pedido_id = p.id) "
+			+ "join item_pedido ip on (ip.id = pip.itens_pedido_id)"
+			+ "join mesa m on (m.id = p.mesa_id) "
+			+ "where (date(p.data_pedido) between date(:dataInicio) and date(:dataFim) ) "
+			+ "and (p.status = 'ABERTO' or :status = null) "
+			+ "group by p.id, m.numero, p.data_pedido ", nativeQuery = true
+		)
+	public List<PedidoAgrupadolDto> findPedidoAgrupado(@Param("dataInicio") String dataInicio,  
+			@Param("dataFim") String dataFim, @Param("status") StatusPedido status);
 	
 	@Query("SELECT p from Pedido p where p.status = 'ABERTO' and p.mesa.id = :idMesa")
 	public List<Pedido> findByMesaStatusAberto(@Param("idMesa") Long idMesa);
