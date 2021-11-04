@@ -135,7 +135,7 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/pedidos/cancelar/{id}")
-	public ResponseEntity<Object> cancelar(@PathVariable("id") Long id, @RequestBody Pedido pedido, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<Object> cancelar(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
 		try {	
 			return ResponseEntity.ok(pedidoService.mudaStatusPedido(id, StatusPedido.CANCELADO));
 		} catch (Exception e) {
@@ -146,9 +146,9 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/pedidos/finalizar/{id}")
-	public ResponseEntity<Object> finalizar(@PathVariable("id") Long id, @RequestBody Pedido pedido, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<Object> finalizar(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
 		try {	
-			return ResponseEntity.ok(pedidoService.mudaStatusPedido(id, StatusPedido.CANCELADO));
+			return ResponseEntity.ok(pedidoService.mudaStatusPedido(id, StatusPedido.FINALIZADO));
 		} catch (Exception e) {
 			Problema problema = new Problema(400, e.getMessage());
 			System.out.println("e.getClass()" + e.getClass());
