@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.guedelho.pedidoCompraApi.dto.MesaDto;
 import br.com.guedelho.pedidoCompraApi.models.Mesa;
 import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 import br.com.guedelho.pedidoCompraApi.repository.MesaRepository;
@@ -56,5 +57,9 @@ public class MesaService {
 		if (id == null)
 			id = 0L;
 		return mesaRepository.find(numero, id, status);
+	}
+	
+	public List<MesaDto> findMesasAbertas(int numero) {
+		return mesaRepository.findMesaAbertas(numero);
 	}
 }

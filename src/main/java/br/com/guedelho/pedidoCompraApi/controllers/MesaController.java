@@ -49,6 +49,18 @@ public class MesaController {
 		}
 	}
 	
+	@GetMapping("/mesas/abertas")
+	public ResponseEntity<Object> findMesasAbertas(@RequestParam(value="numero", required=false, defaultValue ="0") int numero) {
+		try {	
+			return  ResponseEntity.ok(mesaService.findMesasAbertas(numero));
+		} catch (Exception e) {
+			Problema problema = new Problema(400, e.getMessage());
+			return ResponseEntity.status(problema.getStatus()).body(problema);
+		}
+	}
+	
+	
+	
 	@PutMapping("/mesas/{id}")
 	public ResponseEntity<Object> editar(@RequestBody Mesa mesa, @PathVariable Long id,
 				@RequestHeader("Authorization") String token) {
