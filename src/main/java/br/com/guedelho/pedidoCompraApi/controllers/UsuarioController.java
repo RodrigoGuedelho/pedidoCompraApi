@@ -49,11 +49,11 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("/usuarios/{id}")
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	public ResponseEntity<Object> editar(@PathVariable Long id, @Valid @RequestBody Usuario usuario)  {
 		try {
 			try {	
-				usuario = usuarioService.salvar(usuario);	
+				usuario = usuarioService.editar(usuario, id);	
 				return  ResponseEntity.ok(usuario);
 			} catch (Exception e) {
 				Problema problema = new Problema(400, e.getMessage());

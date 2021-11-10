@@ -34,7 +34,9 @@ public class UsuarioService {
 			throw validaUsuario;
 		
 		usuario.setId(id);
-		return salvar(usuario);
+		usuario.setStatus(StatusGenerico.ATIVO);
+		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		return usuarioRepository.save(usuario);
 	}
 	
 	public Exception validaUsuario(Usuario usuario) {
@@ -53,6 +55,9 @@ public class UsuarioService {
 			return new Exception("Usuário com esse id não existe");
 		if(usuarioExiste != null && !usuarioExiste.getId().equals(id)) {
 			return new Exception("Usuário com esse nome já existe");
+		}
+		if(!usuarioAuxiliar.getStatus().equals(StatusGenerico.ATIVO)) {
+			return new Exception("Usuário Está cancelado");
 		}
 		
 		return null;
