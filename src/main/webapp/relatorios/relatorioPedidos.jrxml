@@ -16,6 +16,7 @@
 	<parameter name="data_inicio" class="java.lang.String"/>
 	<parameter name="data_fim" class="java.lang.String"/>
 	<parameter name="filtros" class="java.lang.String"/>
+	<parameter name="status" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT  
 	p.id,p.data_pedido, p.status, p.observacao,SUM(i.quantidade * i.preco) total
@@ -23,9 +24,9 @@ from pedido p
 	join mesa m on (m.id  = p.mesa_id)
 	join pedido_itens_pedido ip ON (ip.pedido_id = p.id)
 	JOIN item_pedido i ON (i.id = ip.itens_pedido_id)
-where p.data_pedido between '$P!{data_inicio}'
-	and  '$P!{data_fim}'GROUP BY p.id
-order by p.data_pedido;]]>
+where date(p.data_pedido) between '$P!{data_inicio}'
+	and  '$P!{data_fim}' and p.status = '$P!{status}'
+GROUP BY p.id order by p.data_pedido;]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -51,6 +52,9 @@ order by p.data_pedido;]]>
 		<property name="com.jaspersoft.studio.field.name" value="total"/>
 		<property name="com.jaspersoft.studio.field.label" value="total"/>
 	</field>
+	<variable name="totalGeral" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -92,7 +96,7 @@ order by p.data_pedido;]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="45" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<staticText>
 				<reportElement x="7" y="17" width="68" height="15" uuid="352815d5-511a-424b-8271-84f84a53fbd0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -152,7 +156,7 @@ order by p.data_pedido;]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="40" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="7" y="5" width="68" height="15" uuid="a0e98e9f-0c62-4c6d-92d5-693d3283c95f">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -194,7 +198,32 @@ order by p.data_pedido;]]>
 		<band height="6" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="25" splitType="Stretch"/>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="686" y="5" width="94" height="15" uuid="400d758d-c872-4ba0-b269-253aa33a0872">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$V{totalGeral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="649" y="5" width="32" height="15" uuid="fce29ca1-9e63-4601-9ef1-52f1b37f6513">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="480" y="3" width="300" height="1" uuid="98f051a9-4009-407b-8fb4-894cd0663002">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

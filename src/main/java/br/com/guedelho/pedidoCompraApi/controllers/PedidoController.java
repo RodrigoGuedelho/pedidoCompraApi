@@ -107,10 +107,11 @@ public class PedidoController {
 	public ResponseEntity<Object> getRelatorio(@RequestParam("dataInicio") 
 		@DateTimeFormat(pattern ="yyyy-MM-dd") Date dataInicio,
 		 @RequestParam(value="dataFim") @DateTimeFormat(pattern ="yyyy-MM-dd") Date dataFim,
+		 @RequestParam(value="status") StatusPedido status,
 		 HttpServletRequest httpServletRequest
 		) throws Exception {
 		//try {		
-			String pdf = pedidoService.getRelatorio(dataInicio, dataFim, httpServletRequest.getServletContext());
+			String pdf = pedidoService.getRelatorio(dataInicio, dataFim, status, httpServletRequest.getServletContext());
 			return ResponseEntity.status(HttpStatus.OK).body(pdf);
 		/*} catch (Exception e) {
 			//Problema problema = new Problema(400, e.getMessage());

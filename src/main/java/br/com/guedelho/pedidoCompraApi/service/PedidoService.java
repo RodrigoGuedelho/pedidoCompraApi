@@ -48,7 +48,7 @@ public class PedidoService {
 		return pedidoRepository.findById(pedido.getId()).get();
 	}
 	
-	public String getRelatorio(Date dataInicio, Date dataFim, ServletContext servletContext) throws Exception {
+	public String getRelatorio(Date dataInicio, Date dataFim, StatusPedido status, ServletContext servletContext) throws Exception {
 		Map<String, Object>  params = new HashMap<String, Object>();
 		
 		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
@@ -58,6 +58,7 @@ public class PedidoService {
 		params.put("data_fim", format.format(dataFim));
 		params.put("filtros", formatPadraoBrasileiro.format(dataInicio) 
 				+ " à " +  formatPadraoBrasileiro.format(dataFim));
+		params.put("status", status.toString());
 		
 		byte [] relatorio = serviceRelatorio.gerarRelatorio("relatorioPedidos", servletContext, params);
 		
