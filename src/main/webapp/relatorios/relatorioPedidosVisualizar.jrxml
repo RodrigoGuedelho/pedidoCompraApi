@@ -236,12 +236,12 @@ WHERE p.id =  $P{pedido_id} ]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="7" y="5" width="68" height="15" uuid="a0e98e9f-0c62-4c6d-92d5-693d3283c95f">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{produto_id}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="75" y="5" width="454" height="15" uuid="fba58960-3b90-404c-8627-4af0f460fcaf">
