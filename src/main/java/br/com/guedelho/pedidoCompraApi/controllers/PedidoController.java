@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -119,6 +120,15 @@ public class PedidoController {
 			//return ResponseEntity.status(problema.getStatus()).body(problema);
 			return null;
 		} */
+	}
+	
+	@Cacheable("cacheFindPedidoVisualizar")
+	@GetMapping(value = "/pedidos/relatorio/{pedidoId}", produces = "application/text")
+	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("pedidoId") Long pedidoId,
+		 HttpServletRequest httpServletRequest
+		) throws Exception {	
+		String pdf = pedidoService.getRelatorioVisualizar(pedidoId, httpServletRequest.getServletContext());
+		return ResponseEntity.status(HttpStatus.OK).body(pdf);
 	}
 	
 	@PutMapping("/pedidos/{id}")

@@ -66,6 +66,20 @@ public class PedidoService {
 		return "data:application/pdf;base64,"  + pdfase64;
 	}
 	
+	public String getRelatorioVisualizar(Long pedidoId, ServletContext servletContext) throws Exception {
+		Map<String, Object>  params = new HashMap<String, Object>();
+		
+		SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatPadraoBrasileiro =  new SimpleDateFormat("dd-MM-yyyy");
+		
+		params.put("pedido_id", pedidoId);
+		
+		byte [] relatorio = serviceRelatorio.gerarRelatorio("relatorioPedidosVisualizar", servletContext, params);
+		
+		String pdfase64 = Base64.encodeBase64String(relatorio);
+		return "data:application/pdf;base64,"  + pdfase64;
+	}
+	
 	
 	public Pedido mudaStatusPedido(Long id, StatusPedido status) throws Exception {
 		Pedido pedido = pedidoRepository.getById(id);
