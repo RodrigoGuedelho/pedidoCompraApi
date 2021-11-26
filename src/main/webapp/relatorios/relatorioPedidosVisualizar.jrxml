@@ -228,7 +228,7 @@ WHERE p.id =  $P{pedido_id} ]]>
 				<textFieldExpression><![CDATA[$F{observacao}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="5" y="2" width="780" height="1" uuid="b8342050-9aad-44ea-9098-11a74b3d8527">
+				<reportElement x="0" y="2" width="780" height="1" uuid="b8342050-9aad-44ea-9098-11a74b3d8527">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
