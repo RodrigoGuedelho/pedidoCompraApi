@@ -15,7 +15,11 @@ Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 # Procedimentos para rodar projeto
 0 - Criar base de dados caso não exista uma ex.: create database pedido-compra;
 
-1 - Ajustar configurações de banco de dados no arquivo application.properties
+1 - mudar no arquivo aplication.propeties: 
+- spring.profiles.active=prod - para desenvolvimento 
+- spring.profiles.active=dev - para produção
+
+2 - Ajustar configurações de banco de dados no arquivo application-dev.properties caso esteja rodando tudo local
 - spring.datasource.url= jdbc:postgresql://ipOndeEstaRodandoBanco:5432/pedido-compra?createDatabaseIfNotExist=true
 - spring.datasource.username=postgres
 - spring.datasource.password=admin
