@@ -16,6 +16,8 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -122,7 +124,8 @@ public class PedidoController {
 		} */
 	}
 	
-	@Cacheable("cacheFindPedidoVisualizar")
+	@CacheEvict(value="cacheFindPedidoVisualizar", allEntries = true)
+	@CachePut("cacheFindPedidoVisualizar")
 	@GetMapping(value = "/pedidos/relatorio/{pedidoId}", produces = "application/text")
 	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("pedidoId") Long pedidoId,
 		 HttpServletRequest httpServletRequest

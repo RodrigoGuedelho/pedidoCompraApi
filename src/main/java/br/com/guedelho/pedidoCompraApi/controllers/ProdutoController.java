@@ -3,6 +3,8 @@ package br.com.guedelho.pedidoCompraApi.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,7 +43,8 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/produtos")
-	@Cacheable("cacheFindProdutos")
+	@CacheEvict(value="cacheFindProdutos", allEntries = true)
+	@CachePut("cacheFindProdutos")
 	public ResponseEntity<Object> find(@RequestParam(value="descricao", required=false) String descricao, 
 			@RequestParam(value="id", required=false) Long id, @RequestParam("status") StatusGenerico status) {
 		try {	
