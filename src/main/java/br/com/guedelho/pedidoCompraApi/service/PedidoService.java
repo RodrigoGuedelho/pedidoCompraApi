@@ -45,7 +45,7 @@ public class PedidoService {
 		}
 		
 		pedido = pedidoRepository.save(pedido);
-		return pedidoRepository.findById(pedido.getId()).get();
+		return pedido;
 	}
 	
 	public String getRelatorio(Date dataInicio, Date dataFim, StatusPedido status, ServletContext servletContext) throws Exception {
