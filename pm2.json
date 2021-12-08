@@ -1,0 +1,10 @@
+{
+    "name": "pedidos-api",
+    "script": "/usr/bin/java",
+    "args": [
+        "-jar",
+        "target/pedidoCompraApi-0.0.1-SNAPSHOT.jar"
+    ],
+    "exec_interpreter": "",
+    "exec_mode": "fork"
+}
