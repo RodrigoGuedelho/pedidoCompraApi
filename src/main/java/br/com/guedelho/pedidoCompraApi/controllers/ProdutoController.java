@@ -1,11 +1,13 @@
 package br.com.guedelho.pedidoCompraApi.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.guedelho.pedidoCompraApi.models.Produto;
 import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
@@ -65,7 +68,28 @@ public class ProdutoController {
 			Problema problema = new Problema(400, e.getMessage());
 			return ResponseEntity.status(problema.getStatus()).body(problema);
 		}
-	} 
+	}
+	
+	@PutMapping("/produtos/{id}/upload")
+	public ResponseEntity<Object> uploadImagem(@RequestParam("file") MultipartFile file, @PathVariable Long id,
+				@RequestHeader("Authorization") String token) {
+		try {	
+			produtoService.uploadImagem(id, file);
+			return ResponseEntity.status(204).body(null);
+			
+		} catch (Exception e) {
+			Problema problema = new Problema(400, e.getMessage());
+			return ResponseEntity.status(problema.getStatus()).body(problema);
+		}
+	}
+	
+	@GetMapping(value = "/produtos/upload/{produtoId}", produces = "application/text")
+	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("produtoId") Long produtoId,
+		 HttpServletRequest httpServletRequest
+		) throws Exception {	
+		String pdf = produtoService.findImgById(produtoId, httpServletRequest.getServletContext());
+		return ResponseEntity.status(HttpStatus.OK).body(pdf);
+	}
 	
 	@PutMapping("/produtos/{id}/cancelar")
 	public ResponseEntity<Object> cancelar(@PathVariable Long id,

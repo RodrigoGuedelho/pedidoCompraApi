@@ -38,6 +38,8 @@ public class Produto implements Serializable{
 	private Usuario usuarioCadastro;
 	@Enumerated(EnumType.STRING)
 	private StatusGenerico status;
+	private String nomeImagem;
+	
 	public Long getId() {
 		return id;
 	}
@@ -85,6 +87,13 @@ public class Produto implements Serializable{
 	}
 	public void setStatus(StatusGenerico status) {
 		this.status = status;
+	}
+	
+	public String getNomeImagem() {
+		return nomeImagem;
+	}
+	public void setNomeImagem(String nomeImagem) {
+		this.nomeImagem = nomeImagem;
 	}
 	@Override
 	public int hashCode() {
