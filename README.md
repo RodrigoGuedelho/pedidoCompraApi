@@ -13,7 +13,10 @@ Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 - Maven;
 
 # Procedimentos para rodar projeto
-0 - Criar base de dados caso não exista uma ex.: create database pedido-compra;
+0 - Criar base de dados caso não exista uma ex.: 
+- create database pedido-compra;
+- Se o banco foi criado agora, crie um usuario: insert into usuario values(nextval('seq_usuario'), 'admin', 'admin', '$2a$10$pP1IFOoH/iFmKwU4nd.84.dFI1y985BgRJ6W3h4vfuqbUM61iSFty', 'ATIVO');
+
 
 1 - mudar no arquivo aplication.propeties: 
 - spring.profiles.active=prod - para desenvolvimento 

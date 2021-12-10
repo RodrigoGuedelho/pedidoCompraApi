@@ -59,7 +59,7 @@ public class PedidoServiceTest {
 	}
 	
 	@Test
-	public void deveDaBadRequest_quandoPassadoMesaOcupada()  {
+	public void deveGerarExeption_quandoPassadoMesaOcupada()  {
 		
 		Pedido pedido = Mockito.mock(Pedido.class);
 		ItemPedido itemPedido = Mockito.mock(ItemPedido.class);
@@ -82,6 +82,7 @@ public class PedidoServiceTest {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
 	}
 	
