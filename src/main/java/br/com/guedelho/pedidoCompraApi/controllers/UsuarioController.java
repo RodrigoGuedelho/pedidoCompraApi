@@ -1,5 +1,6 @@
 package br.com.guedelho.pedidoCompraApi.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
@@ -89,6 +91,25 @@ public class UsuarioController {
 			System.out.println("e.getClass()" + e.getClass());
 			return ResponseEntity.status(problema.getStatus()).body(problema);
 		} 
+	}
+	
+	@PutMapping("/usuarios/{id}/upload")
+	public ResponseEntity<Object> uploadImagem(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
+		try {	
+			usuarioService.uploadImagem(id, file);
+			return ResponseEntity.status(204).body(null);
+		} catch (Exception e) {
+			Problema problema = new Problema(400, e.getMessage());
+			return ResponseEntity.status(problema.getStatus()).body(problema);
+		}
+	}
+	
+	@GetMapping(value = "/usuarios/upload/{usuarioId}", produces = "application/text")
+	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("usuarioId") Long usuarioId,
+		 HttpServletRequest httpServletRequest
+		) throws Exception {	
+		String img = usuarioService.findImgById(usuarioId, httpServletRequest.getServletContext());
+		return ResponseEntity.status(HttpStatus.OK).body(img);
 	}
 
 }

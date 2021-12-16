@@ -62,9 +62,7 @@ public class Utils {
 	
 	public static String getImagem(String caminhoNome) throws IOException {
 		File imagem = new File(caminhoNome);
-		
 		byte [] imagemProduto = Files.readAllBytes(imagem.toPath());
-		
 		String imgBase64 = org.apache.tomcat.util.codec.binary.Base64.encodeBase64String(imagemProduto);
 		return "data:application/img;base64,"  + imgBase64;
 	}

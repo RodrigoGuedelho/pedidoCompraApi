@@ -52,6 +52,8 @@ public class Usuario implements UserDetails {
 	inverseJoinColumns = @JoinColumn (name = "role_id", referencedColumnName = "id", table = "role", unique = false, updatable = false,
 	   foreignKey = @ForeignKey (name="role_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Role> roles; /*Os papeis ou acessos*/
+	@Column(name = "nome_imagem")
+	private String nomeImagem;
 
 
 	public Long getId() {
@@ -86,16 +88,29 @@ public class Usuario implements UserDetails {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-
-
-
 	public StatusGenerico getStatus() {
 		return status;
 	}
 
 	public void setStatus(StatusGenerico status) {
 		this.status = status;
+	}
+	
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getNomeImagem() {
+		return nomeImagem;
+	}
+
+	public void setNomeImagem(String nomeImagem) {
+		this.nomeImagem = nomeImagem;
 	}
 
 	@Override
