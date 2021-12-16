@@ -87,8 +87,8 @@ public class ProdutoController {
 	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("produtoId") Long produtoId,
 		 HttpServletRequest httpServletRequest
 		) throws Exception {	
-		String pdf = produtoService.findImgById(produtoId, httpServletRequest.getServletContext());
-		return ResponseEntity.status(HttpStatus.OK).body(pdf);
+		String img = produtoService.findImgById(produtoId, httpServletRequest.getServletContext());
+		return ResponseEntity.status(HttpStatus.OK).body(img);
 	}
 	
 	@PutMapping("/produtos/{id}/cancelar")

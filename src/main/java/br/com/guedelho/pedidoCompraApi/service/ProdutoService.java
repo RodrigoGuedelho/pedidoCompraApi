@@ -1,25 +1,16 @@
 package br.com.guedelho.pedidoCompraApi.service;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.lowagie.text.Image;
 
 import br.com.guedelho.pedidoCompraApi.models.Produto;
 import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
@@ -31,7 +22,7 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	private String CAMINHO_IMG = "/opt/pedido-legal/uploads/produtos/";
+	private String CAMINHO_IMG = Utils.CAMINHO_RAIZ_IMAGEM + "produtos/";
 	
 	public Produto salvarProduto(Produto produto, String token) {
 		produto.setUsuarioCadastro(Utils.getUsuarioLogado(token));
@@ -77,35 +68,22 @@ public class ProdutoService {
 			throw new Exception("Id do produto invalido.");
 		
 		try {
-			String[] nomeFileQuebrado = file.getOriginalFilename().split("\\.");
-			System.out.println(">>>> array" + nomeFileQuebrado.length);
-			String extencaoArquivo = nomeFileQuebrado[nomeFileQuebrado.length -1];
-			Path path = Paths.get(CAMINHO_IMG);
-			Files.createDirectories(path);
-			Path pathImg = Paths.get(CAMINHO_IMG + id.toString() + "." + extencaoArquivo);
-			Files.write(pathImg, file.getBytes());
-			produtoAxiliar.setNomeImagem(id.toString() + "." + extencaoArquivo);
-			return produtoRepository.save(produtoAxiliar);
-			
+			String nomeImagem = Utils.uploadImagem(id, file, CAMINHO_IMG);	
+			produtoAxiliar.setNomeImagem(nomeImagem);
+			return produtoRepository.save(produtoAxiliar);	
 		} catch (Exception e) {
 			throw new Exception("Erro inesperado ao fazer o upload do arquivo");
 		}
 	}
 	
 	public String findImgById(Long produtoId, ServletContext servletContext) throws Exception {
-		Produto produto = produtoRepository.findById(produtoId).get();
-		
+		Produto produto = produtoRepository.findById(produtoId).get();	
 		if (produto == null)
 			throw new Exception("Id do produto invalido.");
 		if (produto.getNomeImagem().isEmpty())
 			throw new Exception("Produto Não possui imagem");
 		
-		File imagem = new File(CAMINHO_IMG + produto.getNomeImagem());
-		
-		byte [] imagemProduto = Files.readAllBytes(imagem.toPath());
-		
-		String imgBase64 = Base64.encodeBase64String(imagemProduto);
-		return "data:application/img;base64,"  + imgBase64;
+		return Utils.getImagem(CAMINHO_IMG + produto.getNomeImagem());
 	}
 	
 	
