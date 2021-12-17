@@ -38,10 +38,11 @@ public class UsuarioService {
 		
 		if (validaUsuario != null)
 			throw validaUsuario;
-		
+		Usuario usuarioAux = usuarioRepository.findById(id).get();
 		usuario.setId(id);
 		usuario.setStatus(StatusGenerico.ATIVO);
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		usuario.setNomeImagem(usuarioAux.getNomeImagem());
 		return usuarioRepository.save(usuario);
 	}
 	
