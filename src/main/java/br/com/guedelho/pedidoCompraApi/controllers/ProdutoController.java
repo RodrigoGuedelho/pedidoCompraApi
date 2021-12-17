@@ -84,7 +84,7 @@ public class ProdutoController {
 	}
 	
 	@GetMapping(value = "/produtos/upload/{produtoId}", produces = "application/text")
-	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("produtoId") Long produtoId,
+	public ResponseEntity<Object> getUploadImagem(@PathVariable("produtoId") Long produtoId,
 		 HttpServletRequest httpServletRequest
 		) throws Exception {	
 		String img = produtoService.findImgById(produtoId, httpServletRequest.getServletContext());

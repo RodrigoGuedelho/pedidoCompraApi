@@ -105,10 +105,18 @@ public class UsuarioController {
 	}
 	
 	@GetMapping(value = "/usuarios/upload/{usuarioId}", produces = "application/text")
-	public ResponseEntity<Object> getRelatorioVisualizar(@PathVariable("usuarioId") Long usuarioId,
+	public ResponseEntity<Object> getUploadImagem(@PathVariable("usuarioId") Long usuarioId,
 		 HttpServletRequest httpServletRequest
 		) throws Exception {	
 		String img = usuarioService.findImgById(usuarioId, httpServletRequest.getServletContext());
+		return ResponseEntity.status(HttpStatus.OK).body(img);
+	}
+	
+	@GetMapping(value = "/usuarios/upload/login/{login}", produces = "application/text")
+	public ResponseEntity<Object> getUploadImagem(@PathVariable("login") String login,
+		 HttpServletRequest httpServletRequest
+		) throws Exception {	
+		String img = usuarioService.findImgByLogin(login, httpServletRequest.getServletContext());
 		return ResponseEntity.status(HttpStatus.OK).body(img);
 	}
 

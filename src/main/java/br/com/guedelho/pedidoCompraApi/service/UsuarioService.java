@@ -107,4 +107,14 @@ public class UsuarioService {
 		return Utils.getImagem(CAMINHO_IMG + usuario.getNomeImagem());
 	}
 	
+	public String findImgByLogin(String login, ServletContext servletContext) throws Exception {
+		Usuario usuario = usuarioRepository.findUserByLogin(login);
+		if (usuario == null)
+			throw new Exception("Id do usuário invalido.");
+		if (usuario.getNomeImagem().isEmpty())
+			throw new Exception("Usuário Não possui imagem");
+		
+		return Utils.getImagem(CAMINHO_IMG + usuario.getNomeImagem());
+	}
+	
 }
