@@ -115,9 +115,18 @@ public class UsuarioController {
 	@GetMapping(value = "/usuarios/upload/login/{login}", produces = "application/text")
 	public ResponseEntity<Object> getUploadImagem(@PathVariable("login") String login,
 		 HttpServletRequest httpServletRequest
-		) throws Exception {	
-		String img = usuarioService.findImgByLogin(login, httpServletRequest.getServletContext());
-		return ResponseEntity.status(HttpStatus.OK).body(img);
+		)  {	
+		String img;
+		try {
+			img = usuarioService.findImgByLogin(login, httpServletRequest.getServletContext());
+			return ResponseEntity.status(HttpStatus.OK).body(img);
+		} catch (Exception e) {
+			if (e.getMessage().equals("Usuário Não possui imagem"))
+				return ResponseEntity.status(204).body(null);
+			Problema problema = new Problema(400, e.getMessage());
+			return ResponseEntity.status(problema.getStatus()).body(problema);
+		}
+		
 	}
 
 }

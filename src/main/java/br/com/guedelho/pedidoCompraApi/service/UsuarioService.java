@@ -112,7 +112,7 @@ public class UsuarioService {
 		Usuario usuario = usuarioRepository.findUserByLogin(login);
 		if (usuario == null)
 			throw new Exception("Id do usuário invalido.");
-		if (usuario.getNomeImagem().isEmpty())
+		if (Utils.isEmpity(usuario.getNomeImagem()))
 			throw new Exception("Usuário Não possui imagem");
 		
 		return Utils.getImagem(CAMINHO_IMG + usuario.getNomeImagem());
