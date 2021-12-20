@@ -80,7 +80,7 @@ public class ProdutoService {
 		Produto produto = produtoRepository.findById(produtoId).get();	
 		if (produto == null)
 			throw new Exception("Id do produto invalido.");
-		if (produto.getNomeImagem().isEmpty())
+		if (Utils.isEmpity(produto.getNomeImagem()))
 			throw new Exception("Produto Não possui imagem");
 		
 		return Utils.getImagem(CAMINHO_IMG + produto.getNomeImagem());
