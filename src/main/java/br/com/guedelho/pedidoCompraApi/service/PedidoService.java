@@ -1,6 +1,5 @@
 package br.com.guedelho.pedidoCompraApi.service;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import br.com.guedelho.pedidoCompraApi.dto.PedidoAgrupadolDto;
 import br.com.guedelho.pedidoCompraApi.models.Mesa;
 import br.com.guedelho.pedidoCompraApi.models.Pedido;
-import br.com.guedelho.pedidoCompraApi.models.StatusGenerico;
 import br.com.guedelho.pedidoCompraApi.models.StatusPedido;
 import br.com.guedelho.pedidoCompraApi.repository.MesaRepository;
 import br.com.guedelho.pedidoCompraApi.repository.PedidoRepository;
@@ -126,9 +124,13 @@ public class PedidoService {
 	private Exception validar(Pedido pedido) {
 		if (pedido.getItensPedido() == null || (pedido.getItensPedido() != null && pedido.getItensPedido().isEmpty())) 
 			return new Exception("Itens do pedido vazio");
+		
+		if (pedido.getMesa() == null || pedido.getMesa().getId() == null) 
+			return new Exception("Mesa não preenchida ou inválida.");
+		
 		Mesa mesa = mesaRepository.findById(pedido.getMesa().getId()).get();
 		
-		if (mesa == null) 
+		if (mesa == null || mesa.getId() == null) 
 			return new Exception("Mesa não preenchida ou inválida.");
 		
 		List<Pedido> pedidoAberto = pedidoRepository.findByMesaStatusAberto(mesa.getId()); 

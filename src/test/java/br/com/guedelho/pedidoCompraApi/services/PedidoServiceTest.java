@@ -42,7 +42,7 @@ public class PedidoServiceTest {
 	}
 	
 	@Test
-	public void deveSalvar_quandoPassadoOsValoresCorretos() throws Exception {
+	public void salvar_deveSalvar_quandoPassadoOsValoresCorretos() throws Exception {
 		
 		Pedido pedido = Mockito.mock(Pedido.class);
 		ItemPedido itemPedido = Mockito.mock(ItemPedido.class);
@@ -61,7 +61,7 @@ public class PedidoServiceTest {
 	}
 	
 	@Test
-	public void deveGerarExeption_quandoPassadoMesaOcupada()  {
+	public void salvar_deveGerarExeption_quandoPassadoMesaOcupada()  {
 		Pedido pedido = Mockito.mock(Pedido.class);
 		ItemPedido itemPedido = Mockito.mock(ItemPedido.class);
 		List<ItemPedido> itens = new ArrayList<>();
@@ -87,5 +87,50 @@ public class PedidoServiceTest {
 		Assertions.assertEquals(messageError, message);
 	}
 	
-
+	@Test
+	public void salvar_deveGerarExeption_quandoPassadoItensVazio()  {
+		Pedido pedido = Mockito.mock(Pedido.class);
+		
+		List<ItemPedido> itens = new ArrayList<>();
+			
+		Mockito.when(pedido.getItensPedido()).thenReturn(itens);
+		Mesa mesa = Mockito.mock(Mesa.class);
+		Mockito.when(mesa.getId()).thenReturn(1L);
+		Mockito.when(pedido.getMesa()).thenReturn(mesa);
+		Optional<Mesa> mesaOptional = Optional.of(mesa);
+		Mockito.when(mesaRepository.findById(ArgumentMatchers.eq(pedido.getMesa().getId()))).thenReturn(mesaOptional);
+		
+		List<Pedido> pedidos = new ArrayList<>();
+		pedidos.add(pedido);
+		
+		Mockito.when(pedidoRepository.findByMesaStatusAberto(ArgumentMatchers.eq(mesa.getId()))).thenReturn(pedidos);
+		
+		String messageError = "Itens do pedido vazio";
+		String message = Assertions.assertThrows(Exception.class, ()-> {
+			pedidoService.salvar(pedido, "");
+		}).getMessage();
+		
+		Assertions.assertEquals(messageError, message);
+	}
+	
+	@Test
+	public void salvar_deveGerarExeption_quandoNaoPassadaMesa()  {
+		Pedido pedido = Mockito.mock(Pedido.class);
+		ItemPedido itemPedido = Mockito.mock(ItemPedido.class);
+		List<ItemPedido> itens = new ArrayList<>();
+		itens.add(itemPedido);
+			
+		Mockito.when(pedido.getItensPedido()).thenReturn(itens);
+		Mockito.when(pedido.getMesa()).thenReturn(null);
+		
+		List<Pedido> pedidos = new ArrayList<>();
+		pedidos.add(pedido);
+		
+		String messageError = "Mesa não preenchida ou inválida.";
+		String message = Assertions.assertThrows(Exception.class, ()-> {
+			pedidoService.salvar(pedido, "");
+		}).getMessage();
+		
+		Assertions.assertEquals(messageError, message);
+	}
 }
