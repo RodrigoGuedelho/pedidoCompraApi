@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,10 +34,11 @@ public class PedidoServiceTest {
 	@Autowired
 	private PedidoService pedidoService;
 	
+	
+	
 	@BeforeEach
 	public void setup() {
-		RestAssuredMockMvc.standaloneSetup(this.pedidoService);
-		
+		RestAssuredMockMvc.standaloneSetup(this.pedidoService);	
 	}
 	
 	@Test
@@ -60,7 +62,6 @@ public class PedidoServiceTest {
 	
 	@Test
 	public void deveGerarExeption_quandoPassadoMesaOcupada()  {
-		
 		Pedido pedido = Mockito.mock(Pedido.class);
 		ItemPedido itemPedido = Mockito.mock(ItemPedido.class);
 		List<ItemPedido> itens = new ArrayList<>();
@@ -75,15 +76,15 @@ public class PedidoServiceTest {
 		
 		List<Pedido> pedidos = new ArrayList<>();
 		pedidos.add(pedido);
+		
 		Mockito.when(pedidoRepository.findByMesaStatusAberto(ArgumentMatchers.eq(mesa.getId()))).thenReturn(pedidos);
 		
-		try {
+		String messageError = "Existe uma mesa aberta para esse Pedido.";
+		String message = Assertions.assertThrows(Exception.class, ()-> {
 			pedidoService.salvar(pedido, "");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
+		}).getMessage();
+		
+		Assertions.assertEquals(messageError, message);
 	}
 	
 
