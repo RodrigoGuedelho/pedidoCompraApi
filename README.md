@@ -42,7 +42,7 @@ Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 		1 - execute o comando na pasta raiz do projeto: pm2 start pm2.json
 
 5 - Criação de primeiro o usuário, caso seja um banco limpo
-- Rode o seguinte comando no banco de dados : insert into usuario values(nextval('seq_usuario'), 'admin', 'admin', '$2a$10$pP1IFOoH/iFmKwU4nd.84.dFI1y985BgRJ6W3h4vfuqbUM61iSFty', 'ATIVO');
+- Rode o seguinte comando no banco de dados : insert into usuario values(nextval('seq_usuario'), 'admin', 'admin', '', '$2a$10$pP1IFOoH/iFmKwU4nd.84.dFI1y985BgRJ6W3h4vfuqbUM61iSFty', 'ATIVO');
 - A senha informada no passo anterior do usuário é: 123456
 - Ao logar na aplicação você pode alterar a senha do usuário
 
