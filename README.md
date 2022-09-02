@@ -17,8 +17,8 @@ Essa é uma api de pedidos de compra de restaurantes. v1.0.0
 - create database pedido-compra;
 
 1 - mudar no arquivo aplication.propeties: 
-- spring.profiles.active=prod - para desenvolvimento 
-- spring.profiles.active=dev - para produção
+- spring.profiles.active=prod - para produção
+- spring.profiles.active=dev - para desenvolvimento
 
 2 - Ajustar configurações de banco de dados no arquivo application-dev.properties caso esteja rodando tudo local
 - spring.datasource.url= jdbc:postgresql://ipOndeEstaRodandoBanco:5432/pedido-compra?createDatabaseIfNotExist=true
